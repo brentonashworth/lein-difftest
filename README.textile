@@ -1,12 +1,12 @@
 h1. lein-difftest
 
-Leiningen plugin for running clojure.test tests. Works exactly the same as "lein test" but with alternate test reporting. When a test fails, the diff of the two forms is printed.
+Leiningen plugin for running clojure.test tests. Works exactly the same as "lein test" but with alternate test reporting. When a test fails, the report shows the diff of the actual and expected forms. When a test fails due to an error, stacktraces are cleaned up with clj-stacktrace.
 
-This plugin will only work with Leiningen 1.2.
+If you use this with Leiningen then you must have Leiningen 1.2 or greater. It will work from the REPL with any version of Clojure.
 
-h2. Usage
+h2. Leiningen Usage
 
-Add <code>[lein-difftest "1.0.0"]</code> to your project's :dev-dependencies.
+Add <code>[lein-difftest "1.1.0"]</code> to your project's :dev-dependencies.
 
 <pre>
 <code>
@@ -14,6 +14,27 @@ $ lein deps
 $ lein difftest
 </code>
 </pre>
+
+<code>lein difftest</code> has the same interface as <code>lein test</code> so it may have no arguments or may have any number of namespaces are arguments.
+
+h2. REPL Usage
+
+<pre>
+<code>
+user> (require 'difftest.core)
+user> (difftest.core/run-tests 'some.test.namespace)
+</code>
+</pre>
+
+<code>difftest.core/run-tests</code> has the same interface as <code>clojure.test/run-tests</code>.
+
+h2. Dependencies
+
+Apart from Clojure, clojure.test and Leiningen, lein-difftest is built on top of other fine libraries:
+
+* "difform":http://github.com/GeorgeJahad/difform
+* "clj-stacktrace":http://github.com/mmcgrana/clj-stacktrace
+* "google-diff-match-patch":http://code.google.com/p/google-diff-match-patch/
 
 h2. License
 

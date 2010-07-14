@@ -9,7 +9,9 @@
 (ns difftest.core
   (:require [clojure.test :as ct]
             [clojure.stacktrace :as stack]
-            [com.georgejahad.difform :as difform]))
+            [com.georgejahad.difform :as difform]
+            [clj-stacktrace.core :as clj-stacktrace]
+            [clj-stacktrace.repl]))
 
 (defn difform-str [x y]
   (with-out-str
@@ -50,7 +52,7 @@
    (print " actual: ")
    (let [actual (:actual m)]
      (if (instance? Throwable actual)
-       (stack/print-cause-trace actual ct/*stack-trace-depth*)
+       (println (clj-stacktrace.repl/pst-str actual))
        (prn actual)))))
 
 (defmethod difftest-report :summary [m]
@@ -72,3 +74,4 @@
   ([& namespaces]
      (binding [ct/report difftest-report]
        (apply ct/run-tests namespaces))))
+

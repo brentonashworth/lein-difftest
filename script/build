@@ -1,0 +1,3 @@
+lein jar
+mv lein-difftest* lib
+

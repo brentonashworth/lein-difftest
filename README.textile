@@ -1,0 +1,12 @@
+h1. lein-difftest
+
+Leiningen plugin for running clojure.test tests. Works exactly the same as "lein test" but with alternate test reporting. When a test fails the diff of the two forms is printed.
+
+This plugin will only work with Leiningen 1.2.
+
+h2. License
+
+Copyright (C) 2010 Brenton Ashworth
+
+Distributed under the Eclipse Public License, the same as Clojure uses. See the file COPYING.
+

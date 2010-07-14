@@ -6,7 +6,7 @@ This plugin will only work with Leiningen 1.2.
 
 h2. Usage
 
-Add [lein-difftest "1.0.0"] to your project's :dev-dependencies.
+Add <code>[lein-difftest "1.0.0"]</code> to your project's :dev-dependencies.
 
 <pre>
 <code>

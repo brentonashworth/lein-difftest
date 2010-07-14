@@ -4,6 +4,16 @@ Leiningen plugin for running clojure.test tests. Works exactly the same as "lein
 
 This plugin will only work with Leiningen 1.2.
 
+h2. Usage
+
+Add [lein-difftest "1.0.0"] to your project's :dev-dependencies.
+
+<pre>
+<code>
+$ lein difftest
+</code>
+</pre>
+
 h2. License
 
 Copyright (C) 2010 Brenton Ashworth

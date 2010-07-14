@@ -1,0 +1,2 @@
+lein pom
+scp pom.xml lein-difftest-* clojars@clojars.org:

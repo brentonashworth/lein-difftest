@@ -10,6 +10,7 @@ Add [lein-difftest "1.0.0"] to your project's :dev-dependencies.
 
 <pre>
 <code>
+$ lein deps
 $ lein difftest
 </code>
 </pre>

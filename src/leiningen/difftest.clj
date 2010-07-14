@@ -14,12 +14,15 @@
         [leiningen.compile :only [eval-in-project]]))
 
 (def with-version-guard 
-  (ns-resolve 'leiningen.test
-              'with-version-guard))
+     (ns-resolve 'leiningen.test
+                 'with-version-guard))
+
+;; The difftest function is the same as leiningen.test/test but calls
+;; form-for-testing-namespaces with difftest.core as the
+;; test-package.
 
 (defn difftest
-  "Same as test in leiningen.test but calls form-for-testing-namespaces with
-   difftest.core as the test-package. Also, doesn't use clojure.java.io/file."
+  "Run tests, show diff when a test fails."
   [project & namespaces]
   (let [namespaces (if (empty? namespaces)
                      (sort (find-namespaces-in-dir (file (:test-path project))))

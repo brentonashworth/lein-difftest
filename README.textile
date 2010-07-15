@@ -1,14 +1,22 @@
 h1. lein-difftest
 
-Leiningen plugin for running clojure.test tests. Works exactly the same as "lein test" but with alternate test reporting. When a test fails, the report shows the diff of the actual and expected forms. When a test fails due to an error, stacktraces are cleaned up with clj-stacktrace.
+lein-difftest is a Leiningen plugin for running clojure.test tests. It works exactly the same as "lein test" but with alternate test reporting. When a test fails, the report shows the diff of the actual and expected forms. When a test fails due to an error, stacktraces are cleaned up with clj-stacktrace.
 
-If you use this with Leiningen then you must have Leiningen 1.2 or greater. It will work from the REPL with any version of Clojure.
+If used as a plugin, Leiningen 1.2 or greater is required. It will work from the REPL with any version of Clojure.
 
-Note: If your project depends on Clojure 1.2 but not Contrib 1.2 then you will need to add Contrib 1.2 as a dependency to your project. clj-stacktrace depends on Contrib 1.1. This version of Contrib will be added to your project if you don't already have a dependency on Contrib. Contrib 1.1 and Clojure 1.2 do not work together.
+Note: If your project depends on Clojure 1.2 but not Contrib 1.2 then you will need to add Contrib 1.2 as a dependency. clj-stacktrace depends on Contrib 1.1. This version of Contrib will be added to your project if you don't already have a dependency on Contrib. Contrib 1.1 and Clojure 1.2 do not work together.
+
+h2. See It
+
+The screenshot below shows two test runs. The first run shows the normal output when running <code>lein test</code> without this plugin. The second run shows output for the same tests after this library has been installed.
+
+<img src="https://s3.amazonaws.com/formpluslogic-public/images/lein-difftest/lein-difftest.png" alt="lein-difftest" />
+
+The summary lines at the bottom are color coded: red means there was an error in one or more tests, yellow means that there were no errors but there were failures in one or more tests and green means that all tests pass.
 
 h2. Try It
 
-If you would like to see a quick example of what test failures look like with this plugin, or if you would like to experiment with and improve it, enter the following commands:
+If you would like to see a quick example of what test failures and errors look like, or if you would like to experiment with or improve this library, enter the following commands:
 
 <pre>
 <code>
@@ -19,7 +27,7 @@ $ lein test
 </code>
 </pre>
 
-All of the tests fail so that you can see examples of exceptions, and diffs.
+All of the tests fail so that you may see examples of exceptions, and various diffs.
 
 h2. Leiningen Usage
 
@@ -32,7 +40,7 @@ $ lein test
 </code>
 </pre>
 
-This plugin uses Robert Hooke to change the behavior of the Leiningen test task. If you want to go back to standard test output then you will need to remove this plugin.
+This plugin uses Robert Hooke to change the behavior of the Leiningen test task. If you want to go back to standard test output then you will need to remove this library from you classpath.
 
 h2. REPL Usage
 
@@ -52,6 +60,7 @@ Apart from Clojure, clojure.test and Leiningen, lein-difftest is built on top of
 * "difform":http://github.com/GeorgeJahad/difform
 * "clj-stacktrace":http://github.com/mmcgrana/clj-stacktrace
 * "google-diff-match-patch":http://code.google.com/p/google-diff-match-patch/
+* "clansi":http://github.com/ams-clj/clansi
 
 h2. License
 

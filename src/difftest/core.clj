@@ -13,9 +13,32 @@
             [clj-stacktrace.core :as clj-stacktrace]
             [clj-stacktrace.repl]))
 
-(defn difform-str [x y]
+(defn difform-str
+  "Create a string that is the diff of the forms x and y."
+  [x y]
   (with-out-str
     (difform/clean-difform x y)))
+
+(defn actual-diff
+  "Transform the actual form that comes from clojure.test into a diff
+   string. This will diff forms like (not (= ...)) and will return the string
+   representation of anything else."
+  [form]
+  (cond (and (= (first form) 'not) (= (first (last form)) '=))
+        (let [[_ [_ actual expected]] form]
+          (difform-str expected
+                       actual))
+        :else form))
+
+(defn get-testing-vars-str
+  "Wrap clojure.test/testing-vars-str to make it compatible with Clojure 1.1
+   and 1.2."
+  [m]
+  (try (ct/testing-vars-str)
+       (catch Exception _ (ct/testing-vars-str m))))
+
+;; Reporting functions copied from clojure.test and modified to diff
+;; failures and use clj-stacktrace for errors.
 
 (defmulti difftest-report :type)
 
@@ -24,17 +47,6 @@
 
 (defmethod difftest-report :pass [m]
   (ct/with-test-out (ct/inc-report-counter :pass)))
-
-(defn actual-diff [form]
-  (cond (and (= (first form) 'not) (= (first (last form)) '=))
-        (let [[_ [_ actual expected]] form]
-          (difform-str expected
-                       actual))
-        :else form))
-
-(defn get-testing-vars-str [m]
-  (try (ct/testing-vars-str)
-       (catch Exception _ (ct/testing-vars-str m))))
 
 (defmethod difftest-report :fail [m]
   (ct/with-test-out
@@ -74,6 +86,7 @@
 (defmethod difftest-report :end-test-var [m])
 
 (defn run-tests
+  "Same as clojure.test/run-tests but with modified reporting."
   ([] (run-tests *ns*))
   ([& namespaces]
      (binding [ct/report difftest-report]

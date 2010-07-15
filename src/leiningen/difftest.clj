@@ -13,6 +13,8 @@
         [clojure.contrib.find-namespaces :only [find-namespaces-in-dir]]
         [leiningen.compile :only [eval-in-project]]))
 
+;; Don't mind if do use that priviate function.
+
 (def with-version-guard 
      (ns-resolve 'leiningen.test
                  'with-version-guard))
@@ -22,7 +24,8 @@
 ;; test-package.
 
 (defn difftest
-  "Run tests, show diff when a test fails."
+  "Same as 'lein test' but with better error reporting; shows a diff on
+   test failures and uses clj-stacktrace for better stacktraces."
   [project & namespaces]
   (let [namespaces (if (empty? namespaces)
                      (sort (find-namespaces-in-dir (file (:test-path project))))

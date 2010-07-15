@@ -7,6 +7,7 @@
 ;; You must not remove this notice, or any other, from this software.
 
 (ns difftest.core
+  (:use clansi)
   (:require [clojure.test :as ct]
             [clojure.stacktrace :as stack]
             [com.georgejahad.difform :as difform]
@@ -51,9 +52,11 @@
 (defmethod difftest-report :fail [m]
   (ct/with-test-out
    (ct/inc-report-counter :fail)
-   (println "\nFAIL in" (get-testing-vars-str m))
-   (when (seq ct/*testing-contexts*) (println (ct/testing-contexts-str)))
-   (when-let [message (:message m)] (println message))
+   (println (style (str "\nFAIL in " (get-testing-vars-str m)) :bright))
+   (when (seq ct/*testing-contexts*)
+     (println
+      (style (ct/testing-contexts-str) :bright)))
+   (when-let [message (:message m)] (println (style message :bright)))
    (println "expected:" (pr-str (:expected m)))
    (println "  actual:\n" (let [actual (:actual m)]
                             (actual-diff actual)))))
@@ -61,7 +64,7 @@
 (defmethod difftest-report :error [m]
   (ct/with-test-out
    (ct/inc-report-counter :error)
-   (println "\nERROR in" (get-testing-vars-str m))
+   (println (style (str "\nERROR in " (get-testing-vars-str m)) :bright :red))
    (when (seq ct/*testing-contexts*) (println (ct/testing-contexts-str)))
    (when-let [message (:message m)] (println message))
    (println "expected:" (pr-str (:expected m)))
@@ -72,14 +75,22 @@
        (prn actual)))))
 
 (defmethod difftest-report :summary [m]
-  (ct/with-test-out
-   (println "\nRan" (:test m) "tests containing"
-            (+ (:pass m) (:fail m) (:error m)) "assertions.")
-   (println (:fail m) "failures," (:error m) "errors.")))
+  (let [{:keys [pass fail error]} m
+        style-fn #(style % :bright (cond (not (zero? error))
+                                         :red
+                                         (not (zero? fail))
+                                         :yellow
+                                         :else :green))]
+    (ct/with-test-out
+      (println (style-fn
+                (str "\nRan " (:test m) " tests containing "
+                     (+ (:pass m) (:fail m) (:error m)) " assertions.")))
+      (println (style-fn (str (:fail m) " failures, "
+                              (:error m) " errors."))))))
 
 (defmethod difftest-report :begin-test-ns [m]
   (ct/with-test-out
-   (println "\nTesting" (ns-name (:ns m)))))
+    (println (style (str "\nTesting " (ns-name (:ns m))) :bright :underline))))
 
 (defmethod difftest-report :end-test-ns [m])
 (defmethod difftest-report :begin-test-var [m])

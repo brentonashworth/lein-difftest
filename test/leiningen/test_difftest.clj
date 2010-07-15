@@ -9,6 +9,9 @@
 (ns leiningen.test-difftest
   (:use (clojure test)))
 
+(deftest test-success
+  (is (= 5 5)))
+
 (deftest test-something
   (testing "Are these two maps equal"
     (is (= {:a 1 :b 2 :c 3}

@@ -14,6 +14,8 @@
             [clj-stacktrace.core :as clj-stacktrace]
             [clj-stacktrace.repl]))
 
+(def *color* true)
+
 (defn difform-str
   "Create a string that is the diff of the forms x and y."
   [x y]
@@ -38,6 +40,12 @@
   (try (ct/testing-vars-str)
        (catch Exception _ (ct/testing-vars-str m))))
 
+(defn print-with-style [styles & args]
+  (if *color*
+    (println (apply style
+                    (apply str (interpose " " args)) styles))
+    (apply println args)))
+
 ;; Reporting functions copied from clojure.test and modified to diff
 ;; failures and use clj-stacktrace for errors.
 
@@ -52,11 +60,10 @@
 (defmethod difftest-report :fail [m]
   (ct/with-test-out
    (ct/inc-report-counter :fail)
-   (println (style (str "\nFAIL in " (get-testing-vars-str m)) :bright))
+   (print-with-style [:bright] "\nFAIL in" (get-testing-vars-str m))
    (when (seq ct/*testing-contexts*)
-     (println
-      (style (ct/testing-contexts-str) :bright)))
-   (when-let [message (:message m)] (println (style message :bright)))
+     (print-with-style [:bright] (ct/testing-contexts-str)))
+   (when-let [message (:message m)] (print-with-style [:bright] message))
    (println "expected:" (pr-str (:expected m)))
    (println "  actual:\n" (let [actual (:actual m)]
                             (actual-diff actual)))))
@@ -64,7 +71,7 @@
 (defmethod difftest-report :error [m]
   (ct/with-test-out
    (ct/inc-report-counter :error)
-   (println (style (str "\nERROR in " (get-testing-vars-str m)) :bright :red))
+   (print-with-style [:bright :red] "\nERROR in" (get-testing-vars-str m))
    (when (seq ct/*testing-contexts*) (println (ct/testing-contexts-str)))
    (when-let [message (:message m)] (println message))
    (println "expected:" (pr-str (:expected m)))
@@ -76,21 +83,21 @@
 
 (defmethod difftest-report :summary [m]
   (let [{:keys [pass fail error]} m
-        style-fn #(style % :bright (cond (not (zero? error))
-                                         :red
-                                         (not (zero? fail))
-                                         :yellow
-                                         :else :green))]
+        color (cond (not (zero? error))
+                    :red
+                    (not (zero? fail))
+                    :yellow
+                    :else :green)]
     (ct/with-test-out
-      (println (style-fn
-                (str "\nRan " (:test m) " tests containing "
-                     (+ (:pass m) (:fail m) (:error m)) " assertions.")))
-      (println (style-fn (str (:fail m) " failures, "
-                              (:error m) " errors."))))))
+      (print-with-style [:bright color]
+        "\nRan" (:test m) "tests containing"
+        (+ (:pass m) (:fail m) (:error m)) "assertions.")
+      (print-with-style [:bright color]
+        (:fail m) "failures," (:error m) "errors."))))
 
 (defmethod difftest-report :begin-test-ns [m]
   (ct/with-test-out
-    (println (style (str "\nTesting " (ns-name (:ns m))) :bright :underline))))
+    (print-with-style [:bright :underline] "\nTesting" (ns-name (:ns m)))))
 
 (defmethod difftest-report :end-test-ns [m])
 (defmethod difftest-report :begin-test-var [m])
@@ -102,4 +109,13 @@
   ([& namespaces]
      (binding [ct/report difftest-report]
        (apply ct/run-tests namespaces))))
+
+(defn test-ns
+  ([] (test-ns *ns*))
+  ([& namespaces]
+     (let [namespaces (map symbol namespaces)]
+       (doseq [n namespaces]
+         (require :reload-all n))
+       (binding [*color* false]
+         (apply run-tests namespaces)))))
 

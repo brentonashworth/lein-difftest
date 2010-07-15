@@ -17,5 +17,5 @@
   (let [args [(first args) 'difftest.core (last args)]]
     (apply task args)))
 
-(add-hook #'leiningen.test/form-for-testing-namespaces
+ (add-hook #'leiningen.test/form-for-testing-namespaces
           difftest-test-package-hook)

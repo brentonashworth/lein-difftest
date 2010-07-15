@@ -23,7 +23,7 @@ All of the tests fail so that you can see examples of exceptions, and diffs.
 
 h2. Leiningen Usage
 
-Add <code>[lein-difftest "1.2.1"]</code> to your project's :dev-dependencies.
+Add <code>[lein-difftest "1.2.2"]</code> to your project's :dev-dependencies.
 
 <pre>
 <code>
@@ -38,18 +38,17 @@ h2. REPL Usage
 
 <pre>
 <code>
-user> (require 'difftest.core)
-user> (difftest.core/run-tests 'some.test.namespace)
+user> (use 'difftest.core)
+user> (test-ns 'some.test.namespace)
 </code>
 </pre>
 
-<code>difftest.core/run-tests</code> has the same interface as <code>clojure.test/run-tests</code>.
+<code>difftest.core/test-ns</code> may be passed 0 or more namespaces. In the 0 case, it will run tests in the current namespace <code>*ns*</code>. Additionally, it will load or reload the namespaces that it is passed. Finally, it will disable the color feature as this does not look very nice in some REPLs. If you like color in the REPL then you can use <code>difftest.core/run-tests</code>.
 
 h2. Dependencies
 
 Apart from Clojure, clojure.test and Leiningen, lein-difftest is built on top of other fine libraries:
 
-* "Robert Hooke":http://github.com/technomancy/robert-hooke
 * "difform":http://github.com/GeorgeJahad/difform
 * "clj-stacktrace":http://github.com/mmcgrana/clj-stacktrace
 * "google-diff-match-patch":http://code.google.com/p/google-diff-match-patch/

@@ -32,10 +32,14 @@
                        actual))
         :else form))
 
+(defn get-testing-vars-str [m]
+  (try (ct/testing-vars-str)
+       (catch Exception _ (ct/testing-vars-str m))))
+
 (defmethod difftest-report :fail [m]
   (ct/with-test-out
    (ct/inc-report-counter :fail)
-   (println "\nFAIL in" (ct/testing-vars-str))
+   (println "\nFAIL in" (get-testing-vars-str m))
    (when (seq ct/*testing-contexts*) (println (ct/testing-contexts-str)))
    (when-let [message (:message m)] (println message))
    (println "expected:" (pr-str (:expected m)))
@@ -45,7 +49,7 @@
 (defmethod difftest-report :error [m]
   (ct/with-test-out
    (ct/inc-report-counter :error)
-   (println "\nERROR in" (ct/testing-vars-str))
+   (println "\nERROR in" (get-testing-vars-str m))
    (when (seq ct/*testing-contexts*) (println (ct/testing-contexts-str)))
    (when-let [message (:message m)] (println message))
    (println "expected:" (pr-str (:expected m)))

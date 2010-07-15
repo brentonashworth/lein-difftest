@@ -4,9 +4,11 @@ Leiningen plugin for running clojure.test tests. Works exactly the same as "lein
 
 If you use this with Leiningen then you must have Leiningen 1.2 or greater. It will work from the REPL with any version of Clojure.
 
+Note: If your project depends on Clojure 1.2 but not Contrib 1.2 then you will need to add Contrib 1.2 as a dependency to your project. clj-stacktrace depends on Contrib 1.1. This version of Contrib will be added to your project if you don't already have a dependency on Contrib. Contrib 1.1 and Clojure 1.2 do not work together.
+
 h2. Leiningen Usage
 
-Add <code>[lein-difftest "1.1.0"]</code> to your project's :dev-dependencies.
+Add <code>[lein-difftest "1.1.1"]</code> to your project's :dev-dependencies.
 
 <pre>
 <code>

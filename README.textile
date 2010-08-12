@@ -31,7 +31,7 @@ All of the tests fail so that you may see examples of exceptions, and various di
 
 h2. Leiningen Usage
 
-Add <code>[lein-difftest "1.2.2"]</code> to your project's :dev-dependencies.
+Add <code>[lein-difftest "1.2.3"]</code> to your project's :dev-dependencies.
 
 <pre>
 <code>
@@ -65,6 +65,8 @@ Apart from Clojure, clojure.test and Leiningen, lein-difftest is built on top of
 h2. License
 
 Copyright (C) 2010 Brenton Ashworth
+
+Thanks to George Jahad for the idea and the work on difform, Phil Hagelberg for wanting a command line version of Deview and for contributions by Paul Stadig.
 
 Distributed under the Eclipse Public License, the same as Clojure uses. See the file COPYING.
 

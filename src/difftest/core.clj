@@ -27,7 +27,7 @@
    string. This will diff forms like (not (= ...)) and will return the string
    representation of anything else."
   [form]
-  (cond (and (= (first form) 'not) (= (first (last form)) '=))
+  (cond (and (seq? form) (= (first form) 'not) (= (first (last form)) '=))
         (let [[_ [_ actual expected]] form]
           (difform-str expected
                        actual))

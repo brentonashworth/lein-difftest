@@ -46,18 +46,7 @@
                     (apply str (interpose " " args)) styles))
     (apply println args)))
 
-;; Reporting functions copied from clojure.test and modified to diff
-;; failures and use clj-stacktrace for errors.
-
-(defmulti difftest-report :type)
-
-(defmethod difftest-report :default [m]
-  (ct/with-test-out (prn m)))
-
-(defmethod difftest-report :pass [m]
-  (ct/with-test-out (ct/inc-report-counter :pass)))
-
-(defmethod difftest-report :fail [m]
+(defmethod ct/report :fail [m]
   (ct/with-test-out
    (ct/inc-report-counter :fail)
    (print-with-style [:bright] "\nFAIL in" (get-testing-vars-str m))
@@ -68,7 +57,7 @@
    (println "  actual:\n" (let [actual (:actual m)]
                             (actual-diff actual)))))
 
-(defmethod difftest-report :error [m]
+(defmethod ct/report :error [m]
   (ct/with-test-out
    (ct/inc-report-counter :error)
    (print-with-style [:bright :red] "\nERROR in" (get-testing-vars-str m))
@@ -81,7 +70,7 @@
        (println (clj-stacktrace.repl/pst-str actual))
        (prn actual)))))
 
-(defmethod difftest-report :summary [m]
+(defmethod ct/report :summary [m]
   (let [{:keys [pass fail error]} m
         color (cond (not (zero? error))
                     :red
@@ -95,20 +84,14 @@
       (print-with-style [:bright color]
         (:fail m) "failures," (:error m) "errors."))))
 
-(defmethod difftest-report :begin-test-ns [m]
+(defmethod ct/report :begin-test-ns [m]
   (ct/with-test-out
     (print-with-style [:bright :underline] "\nTesting" (ns-name (:ns m)))))
 
-(defmethod difftest-report :end-test-ns [m])
-(defmethod difftest-report :begin-test-var [m])
-(defmethod difftest-report :end-test-var [m])
-
 (defn run-tests
-  "Same as clojure.test/run-tests but with modified reporting."
   ([] (run-tests *ns*))
   ([& namespaces]
-     (binding [ct/report difftest-report]
-       (apply ct/run-tests namespaces))))
+     (apply ct/run-tests namespaces)))
 
 (defn test-ns
   ([] (test-ns *ns*))

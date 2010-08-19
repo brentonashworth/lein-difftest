@@ -37,7 +37,7 @@ Add <code>[lein-difftest "1.2.3"]</code> to your project's :dev-dependencies.
 
 For Clojure 1.2 use <code>[lein-difftest "1.3.0"]</code>
 
-If you are using Leiningen 1.3 then you will need to configure this plugin my adding a :hooks entry in project.clj
+If you are using Leiningen 1.3 or above then you will need to configure this plugin by adding a :hooks entry in project.clj
 
 <code>:hooks [leiningen.hooks.difftest]</code>
 

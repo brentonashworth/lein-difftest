@@ -1,8 +1,8 @@
-(defproject lein-difftest "1.2.3"
+(defproject lein-difftest "1.3.0"
   :description "Run tests, display better test results."
-  :dependencies [[org.clojure/clojure "1.1.0"]
-                 [org.clojars.brenton/difform "1.0.2"]
+  :dependencies [[org.clojure/clojure "1.2.0-RC3"]
+                 [org.clojars.brenton/difform "1.1.0"]
                  [clj-stacktrace "0.1.2"]
-                 [robert/hooke "1.0.1"]
-                 [clansi "1.0.0"]]
+                 [clansi "1.0.0"]
+                 [robert/hooke "1.0.1"]]
   :dev-dependencies [[robert/hooke "1.0.1"]])

@@ -31,14 +31,14 @@
                 :server-name "localhost"
                 :params {"*" "/deview/deview-server"}})
 
-#_(deftest test-large-map
+(deftest test-large-map
   (testing "Can you find the difference in these two maps?"
     (is (= large-map
            (assoc-in large-map
                      [:cookies "ring-session" :value]
                      "0bcoa4e4-a852-4976-b2e9-a697a48f1ed6")))))
 
-#_(deftest test-cause-exception
+(deftest test-cause-exception
   (is (= {:a 1}
          (throw (Exception. "Hello")))))
 

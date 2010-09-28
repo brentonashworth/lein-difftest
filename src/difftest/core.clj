@@ -23,16 +23,34 @@
    (with-out-str
      (difform/clean-difform x y)) 1))
 
+(defn diff-numbers? [x y]
+  (not (or (< x 10000) (< y 10000))))
+
+(defmulti diff? (fn [form] (when (coll? form) (first form))))
+
+(defmethod diff? :default [form]
+           false)
+
+(defmethod diff? 'not [form]
+           (diff? (last form)))
+
+(defmethod diff? '= [form]
+  (let [a (second form)
+        b (last form)]
+    (or (and (coll? a) (coll? b))
+        (and (string? a) (string? b))
+        (and (number? a) (number? b) (diff-numbers? a b)))))
+
 (defn actual-diff
   "Transform the actual form that comes from clojure.test into a diff
    string. This will diff forms like (not (= ...)) and will return the string
    representation of anything else."
   [form]
-  (cond (and (seq? form) (= (first form) 'not) (= (first (last form)) '=))
-        (let [[_ [_ actual expected]] form]
+  (if (diff? form)
+    (let [[_ [_ actual expected]] form]
           (difform-str expected
                        actual))
-        :else form))
+    form))
 
 (defn get-testing-vars-str
   "Wrap clojure.test/testing-vars-str to make it compatible with Clojure 1.1

@@ -24,7 +24,7 @@
      (difform/clean-difform x y)) 1))
 
 (defn diff-numbers? [x y]
-  (not (or (< x 10000) (< y 10000))))
+  (and (>= x 10000) (>= y 10000)))
 
 (defmulti diff? (fn [form] (when (coll? form) (first form))))
 

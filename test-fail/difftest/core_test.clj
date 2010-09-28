@@ -6,7 +6,7 @@
 ;; the terms of this license.
 ;; You must not remove this notice, or any other, from this software.
 
-(ns leiningen.test-difftest
+(ns difftest.core-test
   (:use (clojure test)))
 
 (deftest test-success

@@ -5,4 +5,6 @@
                  [clj-stacktrace "0.1.2"]
                  [clansi "1.0.0"]
                  [robert/hooke "1.0.1"]]
-  :dev-dependencies [[robert/hooke "1.0.1"]])
+  :dev-dependencies [[robert/hooke "1.0.1"]]
+  :hooks [leiningen.hooks.difftest]
+  :test-path "test")

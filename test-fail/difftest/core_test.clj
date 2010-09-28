@@ -9,8 +9,13 @@
 (ns difftest.core-test
   (:use (clojure test)))
 
-(deftest test-success
-  (is (= 5 5)))
+(deftest numbers-test
+  (testing "small numbers"
+    (is (= 2 21)))
+  (testing "small numbers"
+    (is (= 232 252)))
+  (testing "large numbers"
+    (is (= 1676543212345667876543 1676543212341667876543))))
 
 (deftest test-something
   (testing "Are these two maps equal?"
@@ -26,14 +31,14 @@
                 :server-name "localhost"
                 :params {"*" "/deview/deview-server"}})
 
-(deftest test-large-map
+#_(deftest test-large-map
   (testing "Can you find the difference in these two maps?"
     (is (= large-map
            (assoc-in large-map
                      [:cookies "ring-session" :value]
                      "0bcoa4e4-a852-4976-b2e9-a697a48f1ed6")))))
 
-(deftest test-cause-exception
+#_(deftest test-cause-exception
   (is (= {:a 1}
          (throw (Exception. "Hello")))))
 

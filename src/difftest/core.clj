@@ -19,8 +19,9 @@
 (defn difform-str
   "Create a string that is the diff of the forms x and y."
   [x y]
-  (with-out-str
-    (difform/clean-difform x y)))
+  (subs
+   (with-out-str
+     (difform/clean-difform x y)) 1))
 
 (defn actual-diff
   "Transform the actual form that comes from clojure.test into a diff

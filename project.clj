@@ -6,4 +6,4 @@
                  [clansi "1.0.0"]]
   :dev-dependencies [[robert/hooke "1.0.1"]]
   :hooks [leiningen.hooks.difftest]
-  :test-path "test")
+  :test-path "test-fail")

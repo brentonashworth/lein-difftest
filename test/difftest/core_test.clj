@@ -1,9 +1,7 @@
-(ns difftest.test-core
-  (:require [difftest.core :as dt] :reload-all)
-  (:use [clojure.test]))
+(ns difftest.core-test
+  (:use [clojure.test])
+  (:require [difftest.core :as dt]))
 
-(deftest test-actual-diff
-  ;; If you have an assertion like (is (and foo bar)) the actual result comes
-  ;; back as a single Boolean value, not a sequential form.
-  (testing "should not call first on Boolean"
-    (dt/actual-diff false)))
+(deftest actual-diff-test
+    (testing "booleans should not be diffed"
+    (is (false? (dt/actual-diff false)))))

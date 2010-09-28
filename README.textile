@@ -22,7 +22,6 @@ If you would like to see a quick example of what test failures and errors look l
 <code>
 $ git clone git://github.com/brentonashworth/lein-difftest.git
 $ cd lein-difftest
-$ lein deps
 $ lein test
 </code>
 </pre>

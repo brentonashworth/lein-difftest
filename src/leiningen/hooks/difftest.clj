@@ -13,9 +13,9 @@
 (defn difftest-test-package-hook
   "Ensure that form-for-testing-namespaces always uses 'difftest.core as the
    test package."
-  [task & args]
-  (let [args [(first args) 'difftest.core (last args)]]
-    (apply task args)))
+  [f & args]
+  `(do (require '~'difftest.core)
+       ~(apply f args)))
 
- (add-hook #'leiningen.test/form-for-testing-namespaces
+(add-hook #'leiningen.test/form-for-testing-namespaces
           difftest-test-package-hook)

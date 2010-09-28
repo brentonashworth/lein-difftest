@@ -48,7 +48,7 @@ $ lein test
 </code>
 </pre>
 
-This plugin uses Robert Hooke to change the behavior of the Leiningen test task. If you want to go back to standard test output then you will need to remove this library from you classpath.
+This plugin uses Robert Hooke to change the behavior of the Leiningen test task. If you want to go back to standard test output then you will need to remove the entry from the :hooks list in project.clj.
 
 h2. REPL Usage
 

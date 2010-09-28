@@ -1,4 +1,4 @@
-(defproject lein-difftest "1.3.0"
+(defproject lein-difftest "1.3.1-SNAPSHOT"
   :description "Run tests, display better test results."
   :dependencies [[org.clojure/clojure "1.2.0-RC3"]
                  [org.clojars.brenton/difform "1.1.0"]

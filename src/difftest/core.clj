@@ -23,9 +23,6 @@
    (with-out-str
      (difform/clean-difform x y)) 1))
 
-(defn diff-numbers? [x y]
-  (and (>= x 10000) (>= y 10000)))
-
 (defmulti diff? (fn [form] (when (coll? form) (first form))))
 
 (defmethod diff? :default [form]
@@ -38,8 +35,7 @@
   (let [a (second form)
         b (last form)]
     (or (and (coll? a) (coll? b))
-        (and (string? a) (string? b))
-        (and (number? a) (number? b) (diff-numbers? a b)))))
+        (and (string? a) (string? b)))))
 
 (defn actual-diff
   "Transform the actual form that comes from clojure.test into a diff

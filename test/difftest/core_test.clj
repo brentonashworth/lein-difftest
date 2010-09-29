@@ -5,9 +5,6 @@
 (deftest diff?-test
   (is (false? (dt/diff? true)))
   (is (false? (dt/diff? '(not (= 1 2)))))
-  (is (false? (dt/diff? '(not (= 1 9999)))))
-  (is (false? (dt/diff? '(not (= 1 10000)))))
-  (is (true? (dt/diff? '(not (= 10001 10000)))))
   (is (true? (dt/diff? '(not (= [1 2] [1 3])))))
   (is (true? (dt/diff? '(not (= {:a 1} {:a 2})))))
   (is (true? (dt/diff? '(not (= "ab" "ac"))))))

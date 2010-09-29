@@ -1,6 +1,6 @@
 h1. lein-difftest
 
-lein-difftest is a Leiningen plugin for running clojure.test tests. It works exactly the same as "lein test" but with alternate test reporting. When a test fails, the report shows the diff of the actual and expected forms. When a test fails due to an error, stacktraces are cleaned up with clj-stacktrace.
+lein-difftest is a Leiningen plugin for running <code>clojure.test</code> tests. It works exactly the same as "lein test" but with alternate test reporting. When a test fails, the report shows the diff of the actual and expected forms. When a test fails due to an error, stacktraces are cleaned up with clj-stacktrace.
 
 If used as a plugin, Leiningen 1.2 or greater is required. It will work from the REPL with any version of Clojure.
 
@@ -34,7 +34,7 @@ For Clojure 1.1:
 
 Add <code>[lein-difftest "1.2.3"]</code> to your project's :dev-dependencies.
 
-For Clojure 1.2 use <code>[lein-difftest "1.3.0"]</code>
+For Clojure 1.2 use <code>[lein-difftest "1.3.1"]</code>
 
 If you are using Leiningen 1.3 or above then you will need to configure this plugin by adding a :hooks entry in project.clj
 

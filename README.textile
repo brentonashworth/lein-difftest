@@ -30,24 +30,13 @@ All of the tests fail so that you may see examples of exceptions, and various di
 
 h2. Leiningen Usage
 
-For Clojure 1.1:
+Install as a plugin:
 
-Add <code>[lein-difftest "1.2.3"]</code> to your project's :dev-dependencies.
+<pre>$ lein plugin install lein-difftest 1.3.3</pre>
 
-For Clojure 1.2 use <code>[lein-difftest "1.3.3"]</code>
+Add it to init.clj:
 
-If you are using Leiningen 1.3 or above then you will need to configure this plugin by adding a :hooks entry in project.clj
-
-<code>:hooks [leiningen.hooks.difftest]</code>
-
-<pre>
-<code>
-$ lein deps
-$ lein test
-</code>
-</pre>
-
-This plugin uses Robert Hooke to change the behavior of the Leiningen test task. If you want to go back to standard test output then you will need to remove the entry from the :hooks list in project.clj.
+<pre><code>(require 'leiningen.hooks.difftest)</code></pre>
 
 h2. REPL Usage
 

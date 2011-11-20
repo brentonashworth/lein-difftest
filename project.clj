@@ -1,7 +1,7 @@
-(defproject lein-difftest "1.3.4"
+(defproject lein-difftest "1.3.5"
   :description "Run tests, display better test results."
   :dependencies [[org.clojure/clojure "1.2.1"]
-                 [difform "1.1.1"]
+                 [difform "1.1.2"]
                  [clj-stacktrace "0.2.3"]
                  [clansi "1.0.0"]]
   :eval-in-leiningen true

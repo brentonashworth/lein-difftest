@@ -14,7 +14,7 @@
             [clj-stacktrace.core :as clj-stacktrace]
             [clj-stacktrace.repl]))
 
-(def *color* true)
+(def ^{:dynamic true} *color* true)
 
 (defn difform-str
   "Create a string that is the diff of the forms x and y."

@@ -28,11 +28,12 @@ h2. Leiningen Usage
 
 Install as a plugin:
 
-<pre>$ lein plugin install lein-difftest 1.3.4</pre>
+<pre>$ lein plugin install lein-difftest 1.3.7</pre>
 
 Add it to init.clj:
 
-<pre><code>(require 'leiningen.hooks.difftest)</code></pre>
+<pre><code>(try (require 'leiningen.hooks.difftest)
+  (catch java.io.FileNotFoundException _))</code></pre>
 
 h2. REPL Usage
 

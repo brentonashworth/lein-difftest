@@ -26,10 +26,10 @@
 (defmulti diff? (fn [form] (when (coll? form) (first form))))
 
 (defmethod diff? :default [form]
-           false)
+  false)
 
 (defmethod diff? 'not [form]
-           (diff? (last form)))
+  (diff? (last form)))
 
 (defmethod diff? '= [form]
   (let [a (second form)
@@ -44,8 +44,8 @@
   [form]
   (if (diff? form)
     (let [[_ [_ actual expected]] form]
-          (difform-str expected
-                       actual))
+      (difform-str expected
+                   actual))
     form))
 
 (defn get-testing-vars-str
@@ -57,51 +57,8 @@
 
 (defn print-with-style [styles & args]
   (if *color*
-    (println (apply style
-                    (apply str (interpose " " args)) styles))
+    (println (apply style (apply str (interpose " " args)) styles))
     (apply println args)))
-
-(defmethod ct/report :fail [m]
-  (ct/with-test-out
-   (ct/inc-report-counter :fail)
-   (print-with-style [:bright] "\nFAIL in" (get-testing-vars-str m))
-   (when (seq ct/*testing-contexts*)
-     (print-with-style [:bright] (ct/testing-contexts-str)))
-   (when-let [message (:message m)] (print-with-style [:bright] message))
-   (println "expected:" (pr-str (:expected m)))
-   (println "  actual:\n" (let [actual (:actual m)]
-                            (actual-diff actual)))))
-
-(defmethod ct/report :error [m]
-  (ct/with-test-out
-   (ct/inc-report-counter :error)
-   (print-with-style [:bright :red] "\nERROR in" (get-testing-vars-str m))
-   (when (seq ct/*testing-contexts*) (println (ct/testing-contexts-str)))
-   (when-let [message (:message m)] (println message))
-   (println "expected:" (pr-str (:expected m)))
-   (print " actual: ")
-   (let [actual (:actual m)]
-     (if (instance? Throwable actual)
-       (println (clj-stacktrace.repl/pst-str actual))
-       (prn actual)))))
-
-(defmethod ct/report :summary [m]
-  (let [{:keys [pass fail error]} m
-        color (cond (not (zero? error))
-                    :red
-                    (not (zero? fail))
-                    :yellow
-                    :else :green)]
-    (ct/with-test-out
-      (print-with-style [:bright color]
-        "\nRan" (:test m) "tests containing"
-        (+ (:pass m) (:fail m) (:error m)) "assertions.")
-      (print-with-style [:bright color]
-        (:fail m) "failures," (:error m) "errors."))))
-
-(defmethod ct/report :begin-test-ns [m]
-  (ct/with-test-out
-    (print-with-style [:bright :underline] "\nTesting" (ns-name (:ns m)))))
 
 (defn run-tests
   ([] (run-tests *ns*))
@@ -117,3 +74,47 @@
        (binding [*color* false]
          (apply run-tests namespaces)))))
 
+(defn activate
+  "Redefine clojure.test/report methods to be difftest-aware."
+  []
+  (defmethod ct/report :fail [m]
+    (ct/with-test-out
+      (ct/inc-report-counter :fail)
+      (print-with-style [:bright] "\nFAIL in" (get-testing-vars-str m))
+      (when (seq ct/*testing-contexts*)
+        (print-with-style [:bright] (ct/testing-contexts-str)))
+      (when-let [message (:message m)] (print-with-style [:bright] message))
+      (println "expected:" (pr-str (:expected m)))
+      (println "  actual:\n" (let [actual (:actual m)]
+                               (actual-diff actual)))))
+
+  (defmethod ct/report :error [m]
+    (ct/with-test-out
+      (ct/inc-report-counter :error)
+      (print-with-style [:bright :red] "\nERROR in" (get-testing-vars-str m))
+      (when (seq ct/*testing-contexts*) (println (ct/testing-contexts-str)))
+      (when-let [message (:message m)] (println message))
+      (println "expected:" (pr-str (:expected m)))
+      (print " actual: ")
+      (let [actual (:actual m)]
+        (if (instance? Throwable actual)
+          (println (clj-stacktrace.repl/pst-str actual))
+          (prn actual)))))
+
+  (defmethod ct/report :summary [m]
+    (let [{:keys [pass fail error]} m
+          color (cond (not (zero? error))
+                      :red
+                      (not (zero? fail))
+                      :yellow
+                      :else :green)]
+      (ct/with-test-out
+        (print-with-style [:bright color]
+          "\nRan" (:test m) "tests containing"
+          (+ (:pass m) (:fail m) (:error m)) "assertions.")
+        (print-with-style [:bright color]
+          (:fail m) "failures," (:error m) "errors."))))
+
+  (defmethod ct/report :begin-test-ns [m]
+    (ct/with-test-out
+      (print-with-style [:bright :underline] "\nTesting" (ns-name (:ns m))))))

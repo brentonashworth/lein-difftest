@@ -10,23 +10,15 @@ The screenshot below shows two test runs. The first run shows the normal output 
 
 The summary lines at the bottom are color coded: red means there was an error in one or more tests, yellow means that there were no errors but there were failures in one or more tests and green means that all tests pass.
 
-h2. Try It
-
-If you would like to see a quick example of what test failures and errors look like, or if you would like to experiment with or improve this library, enter the following commands:
-
-<pre>
-<code>
-$ git clone git://github.com/brentonashworth/lein-difftest.git
-$ cd lein-difftest
-$ lein test
-</code>
-</pre>
-
-All of the tests fail so that you may see examples of exceptions, and various diffs.
-
 h2. Leiningen Usage
 
-Install as a plugin:
+Add to your ~/.lein/profiles.clj file:
+
+<pre>{:user {:plugins {lein-difftest "1.3.8"}}}</pre>
+
+...and then you should be able to run <kbd>lein difftest</kbd> in any project.
+
+Users of Leiningen 1.x can install like so:
 
 <pre>$ lein plugin install lein-difftest 1.3.7</pre>
 
@@ -40,11 +32,26 @@ h2. REPL Usage
 <pre>
 <code>
 user> (use 'difftest.core)
+user> (activate)
 user> (test-ns 'some.test.namespace)
 </code>
 </pre>
 
 <code>difftest.core/test-ns</code> may be passed 0 or more namespaces. In the 0 case, it will run tests in the current namespace <code>*ns*</code>. Additionally, it will load or reload the namespaces that it is passed. Finally, it will disable the color feature as this does not look very nice in some REPLs. If you like color in the REPL then you can use <code>difftest.core/run-tests</code>.
+
+h2. Try It
+
+If you would like to see a quick example of what test failures and errors look like, or if you would like to experiment with or improve this library, enter the following commands:
+
+<pre>
+<code>
+$ git clone git://github.com/brentonashworth/lein-difftest.git
+$ cd lein-difftest
+$ lein test
+</code>
+</pre>
+
+All of the tests fail so that you may see examples of exceptions, and various diffs.
 
 h2. Dependencies
 
